@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "${mod_id}",
+	"version": "${mod_version}",
+	"name": "${mod_name}",
+	"description": "Waxed hoppers transfer items instantly.",
+	"authors": [
+		"memothelemo"
+	],
+	"contact": {
+		"homepage": "https://github.com/Dystopiko/mods",
+		"sources": "https://github.com/Dystopiko/mods"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/fasthoppers/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"xyz.memothelemo.fasthoppers.client.FastHoppersClient"
+		],
+		"main": [
+			"xyz.memothelemo.fasthoppers.FastHoppers"
+		]
+	},
+	"mixins": [
+		"fasthoppers.mixins.json",
+		{
+			"config": "fasthoppers.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=${fabric_loader_version}",
+		"minecraft": "${min_minecraft_version}",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

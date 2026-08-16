@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "#": "minecraft:cobblestone",
+    "H": "minecraft:hopper",
+    "O": "minecraft:observer",
+    "D": "minecraft:dropper"
+  },
+  "pattern": [
+    "#H#",
+    "#O#",
+    "#D#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "itemfilter:item_filter"
+  }
+}

@@ -1,0 +1,41 @@
+package xyz.memothelemo.itemfilter;
+
+import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
+import net.fabricmc.api.ModInitializer;
+
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import org.geysermc.geyser.api.GeyserApi;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import xyz.memothelemo.itemfilter.bedrock.ModEventRegistrar;
+import xyz.memothelemo.itemfilter.block.ModBlocks;
+
+public class ItemFilterMod implements ModInitializer {
+	public static final String MOD_ID = "itemfilter";
+
+	// This logger is used to write text to the console and the log file.
+	// It is considered best practice to use your mod id as the logger's name.
+	// That way, it's clear which mod wrote info, warnings, and errors.
+	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+
+	@Override
+	public void onInitialize() {
+		PolymerResourcePackUtils.addModAssets(ItemFilterMod.MOD_ID);
+		PolymerResourcePackUtils.markAsRequired();
+		ModBlocks.initialize();
+
+		ServerLifecycleEvents.SERVER_STARTING.register((_) -> {
+			tryInitBedrockSupport();
+		});
+	}
+
+	private void tryInitBedrockSupport() {
+		try {
+			GeyserApi api = GeyserApi.api();
+			ModEventRegistrar registrar = new ModEventRegistrar();
+			api.eventBus().register(registrar, registrar);
+			
+			LOGGER.info("Successfully added support for Bedrock");
+		} catch (RuntimeException _) {}
+	}
+}

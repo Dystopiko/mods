@@ -1,0 +1,58 @@
+plugins {
+    alias(libs.plugins.loom)
+}
+
+def modId = "deathchest"
+def modName = "DeathChest"
+def modVersion = "0.1.2"
+def mavenGroup = rootProject.property("maven_group").toString()
+def minimumMcVersion = "~" + libs.versions.minecraft.get()
+
+base.archivesName.set(modId)
+version = modVersion
+group = mavenGroup
+
+dependencies {
+    minecraft(libs.minecraft)
+    implementation(libs.fabric.loader)
+
+    implementation(libs.fabric.api)
+
+    // EdenMC API
+    implementation(libs.edenmc.api)
+
+    // Adventure
+    include(libs.adventure.api)
+    include(libs.adventure.fabric)
+    implementation(libs.adventure.api)
+    implementation(libs.adventure.fabric)
+}
+
+tasks.processResources {
+    inputs.property("id", modId)
+    inputs.property("name", modName)
+    inputs.property("version", modVersion)
+    inputs.property("fabric_loader_version", libs.versions.fabric.loader.get())
+    inputs.property("min_minecraft_version", minimumMcVersion)
+
+    filteringCharset = "UTF-8"
+    filesMatching("fabric.mod.json") {
+        expand([
+            mod_id: modId,
+            mod_name: modName,
+            mod_version: modVersion,
+            fabric_loader_version: libs.versions.fabric.loader.get(),
+            min_minecraft_version: minimumMcVersion
+        ])
+    }
+}
+
+tasks.jar {
+    from("LICENSE")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+    withSourcesJar()
+}

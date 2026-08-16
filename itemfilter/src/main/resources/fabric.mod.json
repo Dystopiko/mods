@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "${mod_id}",
+	"version": "${mod_version}",
+	"name": "${mod_name}",
+	"description": "A hopper filter block that only passes allowlisted items.",
+	"authors": [
+		"memothelemo"
+	],
+	"contact": {
+		"homepage": "https://github.com/Dystopiko/mods",
+		"sources": "https://github.com/Dystopiko/mods"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/itemfilter/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"xyz.memothelemo.itemfilter.ItemFilterMod"
+		],
+		"client": [
+			"xyz.memothelemo.itemfilter.client.ItemFilterClient"
+		]
+	},
+	"mixins": [
+		"itemfilter.mixins.json",
+		{
+			"config": "itemfilter.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=${fabric_loader_version}",
+		"minecraft": "${min_minecraft_version}",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

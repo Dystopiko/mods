@@ -1,0 +1,71 @@
+plugins {
+    alias(libs.plugins.loom)
+}
+
+def modId = "itemfilter"
+def modName = "ItemFilter"
+def modVersion = "1.0.0"
+def mavenGroup = rootProject.property("maven_group").toString()
+def minimumMcVersion = "~" + libs.versions.minecraft.get()
+
+base.archivesName.set(modId)
+version = modVersion
+group = mavenGroup
+
+loom {
+    splitEnvironmentSourceSets()
+
+    mods {
+        register(modId) {
+            sourceSet(sourceSets.main)
+            sourceSet(sourceSets.client)
+        }
+    }
+}
+
+dependencies {
+    minecraft(libs.minecraft)
+    implementation(libs.fabric.loader)
+
+    implementation(libs.fabric.api)
+
+    // Polymer
+    include(libs.polymer.core)
+    include(libs.polymer.blocks)
+    include(libs.polymer.resource.pack)
+    implementation(libs.polymer.core)
+    implementation(libs.polymer.blocks)
+    implementation(libs.polymer.resource.pack)
+
+    // Geyser (Bedrock support, optional at runtime)
+    compileOnly(libs.geyser.api)
+}
+
+tasks.processResources {
+    inputs.property("id", modId)
+    inputs.property("name", modName)
+    inputs.property("version", modVersion)
+    inputs.property("fabric_loader_version", libs.versions.fabric.loader.get())
+    inputs.property("min_minecraft_version", minimumMcVersion)
+
+    filteringCharset = "UTF-8"
+    filesMatching("fabric.mod.json") {
+        expand([
+            mod_id: modId,
+            mod_name: modName,
+            mod_version: modVersion,
+            fabric_loader_version: libs.versions.fabric.loader.get(),
+            min_minecraft_version: minimumMcVersion
+        ])
+    }
+}
+
+tasks.jar {
+    from("LICENSE")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+    withSourcesJar()
+}

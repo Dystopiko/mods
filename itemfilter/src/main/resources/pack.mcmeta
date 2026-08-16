@@ -1,0 +1,10 @@
+{
+    "pack": {
+        "description": "Item Filter Resources",
+        "pack_format": 82,
+        "supported_formats": {
+            "min_format": 71,
+            "max_format": 82
+        }
+    }
+}

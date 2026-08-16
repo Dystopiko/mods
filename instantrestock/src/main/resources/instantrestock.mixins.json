@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "xyz.memothelemo.instantrestock.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "MerchantOfferMixin",
+    "VillagerMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

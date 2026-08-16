@@ -1,0 +1,41 @@
+[versions]
+minecraft = "26.2"
+
+# Fabric
+fabric-loader = "0.19.3"
+fabric-api = "0.157.0+26.2"
+fabric-permissions = "0.7.0"
+
+# EdenMC API
+edenmc-api = "1.0.1-1.21.11"
+
+# Adventure
+adventure-api = "5.2.0"
+adventure-fabric = "7.1.1"
+
+# Polymer
+polymer = "0.17.3+26.2"
+
+# Geyser API
+geyser-api = "2.9.5-SNAPSHOT"
+
+[libraries]
+minecraft = { module = "net.minecraft:minecraft", version.ref = "minecraft" }
+
+fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
+fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
+fabric-permissions = { module = "me.lucko:fabric-permissions-api", version.ref = "fabric-permissions" }
+
+edenmc-api = { module = "xyz.memothelemo.edenmc:api", version.ref = "edenmc-api" }
+
+adventure-api = { module = "net.kyori:adventure-api", version.ref = "adventure-api" }
+adventure-fabric = { module = "net.kyori:adventure-platform-fabric", version.ref = "adventure-fabric" }
+
+polymer-core = { module = "eu.pb4:polymer-core", version.ref = "polymer" }
+polymer-blocks = { module = "eu.pb4:polymer-blocks", version.ref = "polymer" }
+polymer-resource-pack = { module = "eu.pb4:polymer-resource-pack", version.ref = "polymer" }
+
+geyser-api = { module = "org.geysermc.geyser:api", version.ref = "geyser-api" }
+
+[plugins]
+loom = { id = "net.fabricmc.fabric-loom", version = "1.15-SNAPSHOT" }

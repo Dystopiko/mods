@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "itemfilter:block/item_filter"
+    }
+  }
+}
