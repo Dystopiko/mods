@@ -60,13 +60,13 @@ tasks.register('clean', Delete) {
     delete layout.buildDirectory
 }
 
-tasks.register('release', Copy) {
+tasks.register('release', Sync) {
     group = 'build'
     description = 'Compiles all subproject Fabric mods and copies their JAR files into root build/libs.'
     destinationDir = layout.buildDirectory.dir("libs").get().asFile
 
     Set<String> excludedProjects = ["common", "dev"]
-    def modProjects = subprojects.findAll { !excludedProjects.contains(it) }
+    def modProjects = subprojects.findAll { !excludedProjects.contains(it.name) }
 
     modProjects.each { subproject ->
         dependsOn subproject.tasks.matching { it.name in ['remapJar', 'jar'] }
@@ -77,5 +77,8 @@ tasks.register('release', Copy) {
     include '*.jar'
     exclude '*-sources.jar'
     exclude '*-dev.jar'
-}
 
+    rename { String fileName ->
+        fileName.startsWith("dystopia-") ? fileName : "dystopia-${fileName}"
+    }
+}

@@ -4,7 +4,7 @@ plugins {
 
 def modId = "fasthoppers"
 def modName = "FastHoppers"
-def modVersion = "1.0.0"
+def modVersion = rootProject.property("mod_version")
 def mavenGroup = rootProject.property("maven_group").toString()
 def minimumMcVersion = "~" + libs.versions.minecraft.get()
 
@@ -52,7 +52,8 @@ tasks.processResources {
             mod_name: modName,
             mod_version: modVersion,
             fabric_loader_version: libs.versions.fabric.loader.get(),
-            min_minecraft_version: minimumMcVersion
+            min_minecraft_version: minimumMcVersion,
+            min_edenmc_version: rootProject.property("min_edenmc_version").toString()
         ])
     }
 }

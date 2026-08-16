@@ -4,7 +4,7 @@ plugins {
 
 def modId = "deathchest"
 def modName = "DeathChest"
-def modVersion = "0.1.2"
+def modVersion = rootProject.property("mod_version")
 def mavenGroup = rootProject.property("maven_group").toString()
 def minimumMcVersion = "~" + libs.versions.minecraft.get()
 
@@ -46,7 +46,8 @@ tasks.processResources {
             mod_name: modName,
             mod_version: modVersion,
             fabric_loader_version: libs.versions.fabric.loader.get(),
-            min_minecraft_version: minimumMcVersion
+            min_minecraft_version: minimumMcVersion,
+            min_edenmc_version: rootProject.property("min_edenmc_version").toString()
         ])
     }
 }

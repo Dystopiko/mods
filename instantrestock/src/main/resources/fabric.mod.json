@@ -19,6 +19,7 @@
   ],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",
+    "eden": "=${min_edenmc_version}",
     "fabric-api": "*",
     "java": ">=25",
     "minecraft": "${min_minecraft_version}"

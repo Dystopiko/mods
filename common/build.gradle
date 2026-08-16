@@ -3,7 +3,7 @@ plugins {
 }
 
 def libraryId = "common"
-def libraryVersion = "1.0.0"
+def libraryVersion = rootProject.property("mod_version")
 def mavenGroup = rootProject.property("maven_group").toString()
 
 base.archivesName.set(libraryId)
