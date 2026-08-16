@@ -67,13 +67,16 @@ tasks.register("downloadGeyser", DownloadTask) {
 }
 
 tasks.register("downloadLuckPerms", DownloadTask) {
-    // auto-generated link - updated via ./scripts/update-dependencies.sh
     url = "https://cdn.modrinth.com/data/Vebnzrzj/versions/UHUghDkV/LuckPerms-Fabric-5.5.57.jar"
     output = file("run/mods/LuckPerms.jar")
 }
 
+tasks.register("downloadFabricKotlin", DownloadTask) {
+    url = "https://cdn.modrinth.com/data/Ha28R6CL/versions/bdhiINYC/fabric-language-kotlin-1.13.13%2Bkotlin.2.4.10.jar"
+    output = file("run/mods/FabricKotlin.jar")
+}
+
 tasks.register("downloadEden", DownloadTask) {
-    // auto-generated link - updated via ./scripts/update-dependencies.sh
     url = "https://github.com/Dystopiko/eden-minecraft/releases/download/v1.2.9/eden-1.2.9.jar"
     output = file("run/mods/Eden.jar")
 }
@@ -83,6 +86,7 @@ tasks.register("downloadModDependencies") {
     dependsOn("downloadFloodgate")
     dependsOn("downloadGeyser")
     dependsOn("downloadLuckPerms")
+    dependsOn("downloadFabricKotlin")
     dependsOn("downloadEden")
 }
 

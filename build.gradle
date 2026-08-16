@@ -35,11 +35,9 @@ subprojects {
 // Disable runServer and runClient tasks on individual mod subprojects
 // so running `gradle runServer` or `gradle dev:runServer` only launches the unified :dev server.
 subprojects {
-    plugins.withId('net.fabricmc.loom') {
-        if (project.name != 'dev') {
-            tasks.matching { it.name in ['runServer', 'runClient'] }.configureEach {
-                enabled = false
-            }
+    if (project.name != 'dev') {
+        tasks.matching { it.name in ['runServer', 'runClient'] }.configureEach {
+            enabled = false
         }
     }
 }

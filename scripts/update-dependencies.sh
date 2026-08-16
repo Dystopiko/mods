@@ -98,6 +98,11 @@ NEW_LUCKPERMS_URL="$(fetch_modrinth_file_url "Vebnzrzj" "$TARGET_MC")"
 [[ "$NEW_LUCKPERMS_URL" != "null" && -n "$NEW_LUCKPERMS_URL" ]] || NEW_LUCKPERMS_URL="$(get_dev_task_url "downloadLuckPerms")"
 success "LuckPerms Jar       : ${NEW_LUCKPERMS_URL}"
 
+info "Fetching latest Fabric Kotlin download URL for MC ${TARGET_MC} ..."
+NEW_FABRIC_KOTLIN_URL="$(fetch_modrinth_file_url "Ha28R6CL" "$TARGET_MC")"
+[[ "NEW_FABRIC_KOTLIN_URL" != "null" && -n "$NEW_GEYSER_URL" ]] || NEW_GEYSER_URL="$(get_dev_task_url "downloadFabricKotlin")"
+success "Geyser Jar          : ${NEW_GEYSER_URL}"
+
 info "Fetching latest Eden download URL from GitHub ..."
 NEW_EDEN_URL="$(fetch_github_asset_url "Dystopiko/eden-minecraft" "^eden-.*\\.jar$")"
 [[ "$NEW_EDEN_URL" != "null" && -n "$NEW_EDEN_URL" ]] || NEW_EDEN_URL="$(get_dev_task_url "downloadEden")"
@@ -119,10 +124,11 @@ printf "  %-20s : %b -> %b\n" "adventure-fabric"   "${YELLOW}$(get_toml_version 
 
 echo
 echo -e "${BOLD}[ dev/build.gradle ]${RESET}"
-printf "  %-20s : %b -> %b\n" "downloadFloodgate"  "${YELLOW}$(get_dev_task_url "downloadFloodgate")${RESET}"  "${GREEN}${NEW_FLOODGATE_URL}${RESET}"
-printf "  %-20s : %b -> %b\n" "downloadGeyser"     "${YELLOW}$(get_dev_task_url "downloadGeyser")${RESET}"     "${GREEN}${NEW_GEYSER_URL}${RESET}"
-printf "  %-20s : %b -> %b\n" "downloadLuckPerms"  "${YELLOW}$(get_dev_task_url "downloadLuckPerms")${RESET}"  "${GREEN}${NEW_LUCKPERMS_URL}${RESET}"
-printf "  %-20s : %b -> %b\n" "downloadEden"       "${YELLOW}$(get_dev_task_url "downloadEden")${RESET}"       "${GREEN}${NEW_EDEN_URL}${RESET}"
+printf "  %-20s : %b -> %b\n" "downloadFloodgate"       "${YELLOW}$(get_dev_task_url "downloadFloodgate")${RESET}"      "${GREEN}${NEW_FLOODGATE_URL}${RESET}"
+printf "  %-20s : %b -> %b\n" "downloadGeyser"          "${YELLOW}$(get_dev_task_url "downloadGeyser")${RESET}"         "${GREEN}${NEW_GEYSER_URL}${RESET}"
+printf "  %-20s : %b -> %b\n" "downloadLuckPerms"       "${YELLOW}$(get_dev_task_url "downloadLuckPerms")${RESET}"      "${GREEN}${NEW_LUCKPERMS_URL}${RESET}"
+printf "  %-20s : %b -> %b\n" "downloadFabricKotlin"    "${YELLOW}$(get_dev_task_url "downloadFabricKotlin")${RESET}"   "${GREEN}${NEW_FABRIC_KOTLIN_URL}${RESET}"
+printf "  %-20s : %b -> %b\n" "downloadEden"            "${YELLOW}$(get_dev_task_url "downloadEden")${RESET}"           "${GREEN}${NEW_EDEN_URL}${RESET}"
 echo
 
 if [[ "${AUTO_YES:-0}" != "1" ]]; then
@@ -145,10 +151,11 @@ set_toml_version "adventure-fabric"   "$NEW_ADVENTURE_FABRIC"
 success "libs.versions.toml updated successfully."
 
 info "Patching dev/build.gradle ..."
-set_dev_task_url "downloadFloodgate" "$NEW_FLOODGATE_URL"
-set_dev_task_url "downloadGeyser"    "$NEW_GEYSER_URL"
-set_dev_task_url "downloadLuckPerms" "$NEW_LUCKPERMS_URL"
-set_dev_task_url "downloadEden"      "$NEW_EDEN_URL"
+set_dev_task_url "downloadFloodgate"    "$NEW_FLOODGATE_URL"
+set_dev_task_url "downloadGeyser"       "$NEW_GEYSER_URL"
+set_dev_task_url "downloadLuckPerms"    "$NEW_LUCKPERMS_URL"
+set_dev_task_url "downloadFabricKotlin" "$NEW_FABRIC_KOTLIN_URL"
+set_dev_task_url "downloadEden"         "$NEW_EDEN_URL"
 success "dev/build.gradle updated successfully."
 
 echo
