@@ -17,6 +17,9 @@ dependencies {
     implementation(libs.fabric.loader)
 
     implementation(libs.fabric.api)
+
+    // Common
+    include(project(":common"))
     implementation(project(":common"))
 
     // EdenMC API
