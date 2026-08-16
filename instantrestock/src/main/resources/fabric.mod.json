@@ -11,7 +11,7 @@
   "environment": "server",
   "entrypoints": {
     "server": [
-      "xyz.memothelemo.instantrestock.InstantRestock"
+      "xyz.memothelemo.dystopia.instantrestock.InstantRestock"
     ]
   },
   "mixins": [

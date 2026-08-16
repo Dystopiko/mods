@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "xyz.memothelemo.itemfilter.mixin",
+  "package": "xyz.memothelemo.dystopia.itemfilter.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [],
   "injectors": {

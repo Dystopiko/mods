@@ -16,10 +16,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"xyz.memothelemo.itemfilter.ItemFilterMod"
+			"xyz.memothelemo.dystopia.itemfilter.ItemFilterMod"
 		],
 		"client": [
-			"xyz.memothelemo.itemfilter.client.ItemFilterClient"
+			"xyz.memothelemo.dystopia.itemfilter.client.ItemFilterClient"
 		]
 	},
 	"mixins": [

@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "xyz.memothelemo.fasthoppers.mixin",
+  "package": "xyz.memothelemo.dystopia.fasthoppers.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "HoneycombItemMixin",

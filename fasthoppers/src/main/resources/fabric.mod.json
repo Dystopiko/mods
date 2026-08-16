@@ -16,10 +16,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"client": [
-			"xyz.memothelemo.fasthoppers.client.FastHoppersClient"
+			"xyz.memothelemo.dystopia.fasthoppers.client.FastHoppersClient"
 		],
 		"main": [
-			"xyz.memothelemo.fasthoppers.FastHoppers"
+			"xyz.memothelemo.dystopia.fasthoppers.FastHoppers"
 		]
 	},
 	"mixins": [

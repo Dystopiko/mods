@@ -1,7 +1,7 @@
 {
     "required": true,
     "minVersion": "0.8",
-    "package": "xyz.memothelemo.deathchest.mixin",
+    "package": "xyz.memothelemo.dystopia.deathchest.mixin",
     "compatibilityLevel": "JAVA_25",
     "mixins": [
         "BaseContainerBlockEntityMixin",

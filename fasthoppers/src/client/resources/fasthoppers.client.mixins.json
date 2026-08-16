@@ -1,6 +1,6 @@
 {
 	"required": true,
-	"package": "xyz.memothelemo.fasthoppers.client.mixin",
+	"package": "xyz.memothelemo.dystopia.fasthoppers.client.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"client": [],
 	"injectors": {

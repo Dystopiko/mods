@@ -10,7 +10,7 @@
   "environment": "server",
   "entrypoints": {
     "server": [
-      "xyz.memothelemo.deathchest.DeathChestMod"
+      "xyz.memothelemo.dystopia.deathchest.DeathChestMod"
     ]
   },
   "mixins": [
