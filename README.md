@@ -31,7 +31,10 @@ All centralized version declarations live in [`libs.versions.toml`](libs.version
 ## Build & Run
 
 ```bash
-# Build all subprojects and generate mod JARs
+# Compile all mod subprojects and copy their JAR files to root build/libs
+./gradlew release
+
+# Build all subprojects (including dev aggregator)
 ./gradlew build
 
 # Build a specific subproject

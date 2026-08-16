@@ -11,11 +11,30 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Utility solver class for locating valid, placeable block positions near a player's death location.
+ */
 public class PlacementSolver {
+    private PlacementSolver() {}
+
+    /**
+     * Horizontal search radius in blocks.
+     */
+    private static final int SEARCH_RADIUS = 8;
+
+    /**
+     * Offsets in x and z axes of every block within {@link #SEARCH_RADIUS},
+     * sorted by distance in ascending order.
+     */
+    private static final List<int[]> PRECOMPUTED_DELTAS = buildPrecomputedDeltas();
+
     /**
      * Finds the nearest block position within {@link #SEARCH_RADIUS} in
-     * unit blocks from the provided origin position where a block can
-     * be placed.
+     * unit blocks from the provided origin position where a block can be placed.
+     *
+     * @param level the world level
+     * @param origin the origin position from which to search
+     * @return the nearest valid placeable {@link BlockPos}, or {@code null} if none found
      */
     public static @Nullable BlockPos findNearestForBlock(
         @NonNull Level level,
@@ -64,6 +83,9 @@ public class PlacementSolver {
     /**
      * Finds the nearest block position within {@link #SEARCH_RADIUS} in
      * unit blocks of {@code player} where a block can be placed.
+     *
+     * @param player the server player whose death location to search around
+     * @return the nearest valid placeable {@link BlockPos}, or {@code null} if none found
      */
     public static @Nullable BlockPos findNearestForBlock(@NonNull ServerPlayer player) {
         BlockPos origin = player.blockPosition();
@@ -75,11 +97,10 @@ public class PlacementSolver {
      * Returns the surface position at {@code (x, z)} if a block can be placed
      * there, or {@code null} otherwise.
      *
-     * <p>A position is placeable when:
-     * <ul>
-     *   <li>The surface height is within the world's valid build range.</li>
-     *   <li>The block at surface height is air (block fits).</li>
-     * </ul>
+     * @param level the level to inspect
+     * @param x the X coordinate
+     * @param z the Z coordinate
+     * @return the placeable {@link BlockPos}, or {@code null}
      */
     private static @Nullable BlockPos findPlaceablePosition(Level level, int x, int z) {
         int surfaceY = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);
@@ -91,28 +112,11 @@ public class PlacementSolver {
         return level.getBlockState(result).isAir() ? result : null;
     }
 
-    /** Horizontal search radius in blocks. */
-    private static final int SEARCH_RADIUS = 8;
-
-    /**
-     * Offsets in x and z axes of every block within {@link #SEARCH_RADIUS},
-     * sorted by distance in ascending order so the nearest column is
-     * visited first.
-     *
-     * <p>Stored as {@code int[2]} arrays ({@code [dx, dz]}) to avoid the
-     * autoboxing cost of a generic pair type.
-     *
-     * <p>The origin {@code (0, 0)} is excluded as it is checked separately
-     * before the loop in {@link #findNearestForBlock}.
-     */
-    private static final List<int[]> PRECOMPUTED_DELTAS = buildPrecomputedDeltas();
-
     /**
      * Builds and sorts the delta list once at class load time so the cost
      * is paid once rather than on every player death.
      *
-     * <p>A point {@code (dx, dz)} is included only when
-     * {@code dx² + dz² ≤ r²}, giving a true circular search area.
+     * @return sorted list of horizontal delta coordinate pairs
      */
     private static List<int[]> buildPrecomputedDeltas() {
         int radiusSquared = SEARCH_RADIUS * SEARCH_RADIUS;
@@ -132,12 +136,15 @@ public class PlacementSolver {
     }
 
     /**
-     * Returns the distance squared between two points in 3D space
-     * using raw coordinates by using the Pythagorean formula.
+     * Returns the distance squared between two points in 3D space.
      *
-     * <p>{@link Math#sqrt} is intentionally omitted. Comparisons remain
-     * correct without it, and skipping the square root avoids unnecessary
-     * floating-point cost.
+     * @param x1 first point X
+     * @param y1 first point Y
+     * @param z1 first point Z
+     * @param x2 second point X
+     * @param y2 second point Y
+     * @param z2 second point Z
+     * @return squared Euclidean distance
      */
     private static int distanceSquared(int x1, int y1, int z1, int x2, int y2, int z2) {
         int dx = x1 - x2;

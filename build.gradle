@@ -53,3 +53,29 @@ tasks.register('runClient') {
     description = 'Launches the unified development client.'
     dependsOn(':dev:runClient')
 }
+
+tasks.register('clean', Delete) {
+    group = 'build'
+    description = 'Deletes the root build directory and all compiled output artifacts.'
+    delete layout.buildDirectory
+}
+
+tasks.register('release', Copy) {
+    group = 'build'
+    description = 'Compiles all subproject Fabric mods and copies their JAR files into root build/libs.'
+    destinationDir = layout.buildDirectory.dir("libs").get().asFile
+
+    Set<String> excludedProjects = ["common", "dev"]
+    def modProjects = subprojects.findAll { !excludedProjects.contains(it) }
+
+    modProjects.each { subproject ->
+        dependsOn subproject.tasks.matching { it.name in ['remapJar', 'jar'] }
+        from(subproject.tasks.matching { it.name == 'remapJar' })
+        from(subproject.tasks.matching { it.name == 'jar' })
+    }
+
+    include '*.jar'
+    exclude '*-sources.jar'
+    exclude '*-dev.jar'
+}
+

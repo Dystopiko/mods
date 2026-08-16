@@ -7,7 +7,6 @@ import eu.pb4.polymer.blocks.api.PolymerBlockResourceUtils;
 import eu.pb4.polymer.blocks.api.PolymerTexturedBlock;
 import net.fabricmc.fabric.api.networking.v1.context.PacketContext;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
@@ -79,7 +78,7 @@ public class ItemFilterBlock extends BaseEntityBlock implements PolymerTexturedB
 
         player.openMenu(new SimpleMenuProvider(
             (id, inventory, _) -> ChestMenu.threeRows(id, inventory, allowlistInventory),
-            xyz.memothelemo.dystopia.common.constant.MessageConstants.ITEM_FILTER_COMPONENT
+            net.minecraft.network.chat.Component.literal("Item Filter")
         ));
         return InteractionResult.SUCCESS;
     }

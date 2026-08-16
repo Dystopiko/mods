@@ -11,17 +11,24 @@ import org.jspecify.annotations.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Immutable data record representing the contents and ownership information of a single death chest.
+ *
+ * @param ownerId the player's Discord ID (snowflake)
+ * @param ownerName the player's cached display name
+ * @param inventory the stored list of inventory items with slot indices
+ * @param equipment the stored entity equipment stacks
+ */
 public record DeathChestDataEntry(
-    // This refers to player's Discord ID
     @NonNull String ownerId,
-    // Player's cached Discord ownerName
     @NonNull String ownerName,
-    // Player's last inventory contents before they died
     @NonNull List<ItemStackWithSlot> inventory,
-    // Player's last entity equipment contents before they died
     @NotNull EntityEquipment equipment
 ) {
-    public static Codec<DeathChestDataEntry> CODEC = RecordCodecBuilder.create(instance ->
+    /**
+     * Codec for serializing and deserializing {@link DeathChestDataEntry} records.
+     */
+    public static final Codec<DeathChestDataEntry> CODEC = RecordCodecBuilder.create(instance ->
         instance.group(
             ExtraCodecs.NON_EMPTY_STRING
                 .fieldOf("ownerId")

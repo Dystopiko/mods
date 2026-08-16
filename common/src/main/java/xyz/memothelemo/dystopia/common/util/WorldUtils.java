@@ -1,8 +1,6 @@
 package xyz.memothelemo.dystopia.common.util;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -11,28 +9,21 @@ import net.minecraft.world.level.block.HopperBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gamerules.GameRules;
 import org.jspecify.annotations.Nullable;
 
+/**
+ * Utility functions for world manipulations, item entity spawning, and block entity lookups.
+ */
 public final class WorldUtils {
-
     private WorldUtils() {}
 
-    public static boolean isKeepInventory(ServerPlayer player) {
-        return isKeepInventory(player.level());
-    }
-
-    public static boolean isKeepInventory(Level level) {
-        if (level instanceof ServerLevel serverLevel) {
-            return serverLevel.getGameRules().get(GameRules.KEEP_INVENTORY);
-        }
-        return false;
-    }
-
-    public static boolean isKeepInventory(ServerLevel level) {
-        return level.getGameRules().get(GameRules.KEEP_INVENTORY);
-    }
-
+    /**
+     * Spawns an item stack entity in the world at the given block position with downward velocity.
+     *
+     * @param level the level in which to drop the item stack
+     * @param blockPos the block position where the item entity should spawn
+     * @param item the item stack to drop
+     */
     public static void dropItemStack(Level level, BlockPos blockPos, ItemStack item) {
         double spawnX = blockPos.getX();
         double spawnY = blockPos.getY() - 0.125F;
@@ -43,6 +34,13 @@ public final class WorldUtils {
         level.addFreshEntity(droppedItem);
     }
 
+    /**
+     * Retrieves a {@link HopperBlockEntity} at the specified position if the block and entity match.
+     *
+     * @param level the world level to query
+     * @param pos the block position to inspect
+     * @return the {@link HopperBlockEntity} instance if present and valid, or {@code null} otherwise
+     */
     public static @Nullable HopperBlockEntity getHopperAt(Level level, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
         if (!state.hasBlockEntity()) {

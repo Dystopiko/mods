@@ -24,15 +24,31 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static xyz.memothelemo.dystopia.deathchest.DeathChestMod.LOGGER;
 
-// TODO: Find very efficient ways to store death chest data
+/**
+ * Persistent world saved data tracking death chest positions and player ownership mappings across server restarts.
+ */
 public class DCServerData extends SavedData {
+    /**
+     * Map of block positions to their corresponding death chest data entries.
+     */
     private ConcurrentHashMap<@NonNull BlockPos, @NonNull DeathChestDataEntry> chestsPerPosition
         = new ConcurrentHashMap<>();
 
-    // key: player's discord snowflake
+    /**
+     * Map of player Discord IDs to their set of active death chest block positions.
+     */
     private ConcurrentHashMap<@NonNull String, @NonNull HashSet<BlockPos>> chestsPerPlayer
         = new ConcurrentHashMap<>();
 
+    /**
+     * Registers a new death chest in the server data store.
+     *
+     * @param player the player creating the death chest
+     * @param member the Eden member profile of the player
+     * @param position the world position of the death chest
+     * @param data the data entry containing inventory and metadata
+     * @return {@code true} if successfully registered, {@code false} if a chest already exists at the position
+     */
     public boolean onNewDeathChest(
         @NonNull ServerPlayer player,
         @NonNull Member member,
@@ -52,6 +68,12 @@ public class DCServerData extends SavedData {
         return true;
     }
 
+    /**
+     * Removes a death chest from the server data store upon claim or destruction.
+     *
+     * @param member the Eden member owning the death chest
+     * @param position the position of the death chest
+     */
     public void onDeathChestRemoved(@NonNull Member member, @NonNull BlockPos position) {
         LOGGER.debug("[server_data]: chests_per_position -/-> {}", position);
         LOGGER.debug("[server_data]: chests_per_player -/-> {}", member.getDiscordId());
@@ -61,24 +83,52 @@ public class DCServerData extends SavedData {
         setDirty();
     }
 
+    /**
+     * Retrieves the death chest data entry for a specific block position.
+     *
+     * @param position the position to query
+     * @return the {@link DeathChestDataEntry} if present, or {@code null}
+     */
     public @Nullable DeathChestDataEntry getDataForChest(@NonNull BlockPos position) {
         return this.chestsPerPosition.get(position);
     }
 
+    /**
+     * Retrieves the set of active death chest positions owned by a server player.
+     *
+     * @param player the server player
+     * @return the set of block positions, or {@code null} if no Eden member profile is bound
+     */
     public @Nullable HashSet<BlockPos> getChestsForPlayer(@NonNull ServerPlayer player) {
         Member member = ((DcServerPlayer) player).dc$asEdenMember();
         return member != null ? getChestsForPlayer(member) : null;
     }
 
+    /**
+     * Retrieves the set of active death chest positions owned by an Eden member.
+     *
+     * @param member the Eden member
+     * @return the non-null set of block positions
+     */
     public @NonNull HashSet<BlockPos> getChestsForPlayer(@NonNull Member member) {
         return this.chestsPerPlayer.computeIfAbsent(member.getDiscordId(), $ -> new HashSet<>());
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Creates an empty server data instance.
+     *
+     * @return a new empty {@link DCServerData}
+     */
     public static DCServerData empty() {
         return new DCServerData();
     }
 
+    /**
+     * Obtains or initializes the persistent death chest data for a Minecraft server.
+     *
+     * @param server the active server instance
+     * @return the loaded or newly created {@link DCServerData}
+     */
     public static DCServerData fromServer(MinecraftServer server) {
         ServerLevel level = server.getLevel(Level.OVERWORLD);
         if (level == null) {
@@ -93,7 +143,6 @@ public class DCServerData extends SavedData {
 
     private static final Codec<BlockPos> BLOCK_POS_KEY_CODEC = Codec.STRING.xmap(
         str -> {
-            // Decode: "x,y,z" → BlockPos
             String[] parts = str.split(",", 3);
             return new BlockPos(
                 Integer.parseInt(parts[0]),
