@@ -19,6 +19,7 @@ dependencyResolutionManagement {
 
 rootProject.name = 'dystopia-mods'
 
+include('common')
 include('deathchest')
 include('fasthoppers')
 include('itemfilter')

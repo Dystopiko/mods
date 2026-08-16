@@ -1,0 +1,33 @@
+plugins {
+    alias(libs.plugins.loom)
+}
+
+def libraryId = "common"
+def libraryVersion = "1.0.0"
+def mavenGroup = rootProject.property("maven_group").toString()
+
+base.archivesName.set(libraryId)
+version = libraryVersion
+group = mavenGroup
+
+dependencies {
+    minecraft(libs.minecraft)
+    implementation(libs.fabric.loader)
+    implementation(libs.fabric.api)
+
+    // Fabric Permissions API
+    api(libs.fabric.permissions)
+
+    // EdenMC API
+    api(libs.edenmc.api)
+
+    // Adventure
+    api(libs.adventure.api)
+    api(libs.adventure.fabric)
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+    withSourcesJar()
+}

@@ -1,17 +1,17 @@
 package xyz.memothelemo.instantrestock;
 
-import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.minecraft.server.level.ServerPlayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.memothelemo.common.util.PermissionUtils;
 
 public class InstantRestock implements DedicatedServerModInitializer {
     public static final String MOD_ID = "InstantRestock";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static boolean canApplyIRForPlayer(ServerPlayer player) {
-        return Permissions.check(player, "dystopia.instantrestock");
+        return PermissionUtils.canInstantRestock(player);
     }
 
     @Override

@@ -115,13 +115,7 @@ public class ItemFilterBlockEntity extends BlockEntity {
 
 
     private static void dropItemStack(Level level, BlockPos blockPos, ItemStack item) {
-        double spawnX = blockPos.getX();
-        double spawnY = blockPos.getY() - (double) 0.125F;
-        double spawnZ = blockPos.getZ();
-
-        ItemEntity droppedItem = new ItemEntity(level, spawnX, spawnY, spawnZ, item);
-        droppedItem.setDeltaMovement(0, -1, 0);
-        level.addFreshEntity(droppedItem);
+        xyz.memothelemo.common.util.WorldUtils.dropItemStack(level, blockPos, item);
     }
 
     private static void tryMoveItems(
@@ -145,7 +139,7 @@ public class ItemFilterBlockEntity extends BlockEntity {
         final BlockPos filterBlockPos
     ) {
         BlockPos blockPos = filterBlockPos.above();
-        return getHopper(level, blockPos, level.getBlockState(blockPos));
+        return xyz.memothelemo.common.util.WorldUtils.getHopperAt(level, blockPos);
     }
 
     private static @Nullable HopperBlockEntity getDestinationHopper(
@@ -153,24 +147,6 @@ public class ItemFilterBlockEntity extends BlockEntity {
         final BlockPos filterBlockPos
     ) {
         BlockPos blockPos = filterBlockPos.below();
-        return getHopper(level, blockPos, level.getBlockState(blockPos));
-    }
-
-    private static @Nullable HopperBlockEntity getHopper(
-        final Level level,
-        final BlockPos pos,
-        final BlockState state
-    ) {
-        if (!state.hasBlockEntity()) {
-            return null;
-        }
-
-        BlockEntity entity = level.getBlockEntity(pos);
-        Block block = state.getBlock();
-        if (!(entity instanceof HopperBlockEntity hopper && block instanceof HopperBlock)) {
-            return null;
-        }
-
-        return hopper;
+        return xyz.memothelemo.common.util.WorldUtils.getHopperAt(level, blockPos);
     }
 }

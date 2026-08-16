@@ -28,6 +28,7 @@ dependencies {
     implementation(libs.fabric.loader)
 
     implementation(libs.fabric.api)
+    implementation(project(":common"))
 
     // Polymer
     include(libs.polymer.core)

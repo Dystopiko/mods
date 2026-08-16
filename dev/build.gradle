@@ -20,6 +20,7 @@ dependencies {
     implementation(libs.edenmc.api)
 
     // All Dystopia mods, loaded together into a single dev server.
+    localRuntime(project(":common"))
     localRuntime(project(":deathchest"))
     localRuntime(project(":fasthoppers"))
     localRuntime(project(":itemfilter"))

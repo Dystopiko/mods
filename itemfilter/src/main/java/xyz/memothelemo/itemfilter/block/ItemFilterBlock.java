@@ -79,7 +79,7 @@ public class ItemFilterBlock extends BaseEntityBlock implements PolymerTexturedB
 
         player.openMenu(new SimpleMenuProvider(
             (id, inventory, _) -> ChestMenu.threeRows(id, inventory, allowlistInventory),
-            Component.literal("Item Filter")
+            xyz.memothelemo.common.constant.MessageConstants.ITEM_FILTER_COMPONENT
         ));
         return InteractionResult.SUCCESS;
     }

@@ -83,7 +83,7 @@ public class ChestBlockMixin {
             1.0F
         );
 
-        ((DcServerPlayer) player).dc$applyFromData(data, chestPos.getCenter());
+        ((DcServerPlayer) player).dc$applyFromData(data, Vec3.atCenterOf(chestPos));
         player.sendMessage(Components.CLAIMED);
         DeathChestMod.data.onDeathChestRemoved(member, chestPos);
     }
