@@ -1,0 +1,98 @@
+# Borrowed from: https://github.com/Dystopiko/eden-minecraft/blob/master/.github/workflows/build.yml
+# Licensed under MIT License
+name: Build
+
+on:
+  push:
+    # Trigger on every version tag (e.g. v1.2.3)
+    tags:
+      - 'v*'
+
+  # Trigger on every requested manual run
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build release JARs
+    runs-on: ubuntu-latest
+    env:
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      # Get the `mod_version` property in gradle.properties. This is to check if
+      # the developer forgets to bump the version in that said file.
+      - name: Check version consistency
+        id: version
+        shell: bash
+        run: |
+          version="$(sed -n 's/^[[:space:]]*mod_version[[:space:]]*=[[:space:]]*//p' gradle.properties | tr -d '\r' | sed 's/[[:space:]]*$//')"
+          if [[ -z "$version" ]]; then
+            echo "::error file=gradle.properties::Could not read mod_version from gradle.properties"
+            exit 1
+          fi
+
+          if [[ "$GITHUB_REF_TYPE" == "tag" && "$GITHUB_REF_NAME" != "v$version" ]]; then
+            echo "::error file=gradle.properties::Tag '$GITHUB_REF_NAME' does not match mod_version '$version'"
+            exit 1
+          fi
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v5
+        with:
+          java-version: '25'
+          distribution: 'microsoft'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v5
+        with:
+          name: Artifacts
+          path: fabric/build/libs/*.jar
+          if-no-files-found: error
+          retention-days: 7
+
+  release:
+    if: github.ref_type == 'tag'
+    needs: build
+
+    name: Publish release
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v5
+        with:
+          name: Artifacts
+          path: dist
+
+      # Upload the JARs to the release for this tag, then publish it.
+      - name: Upload JARs and publish release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          if ! gh release view "$TAG" > /dev/null 2>&1; then
+            gh release create "$TAG" \
+              --draft \
+              --verify-tag \
+              --title "$TAG" \
+              --generate-notes
+          fi
+
+          gh release upload "$TAG" dist/*.jar --clobber
+          gh release edit "$TAG" --draft=false
