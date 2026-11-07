@@ -82,8 +82,9 @@ public abstract class VillagerMixin extends AbstractVillager {
         this.ir$applyEffect();
     }
 
-    @Inject(method = "stopTrading", at = @At("HEAD"))
-    public void ir$disableIREffect(CallbackInfo ci) {
+    @Inject(method = "setTradingPlayer", at = @At("HEAD"))
+    public void ir$disableIREffect(Player player, CallbackInfo ci) {
+        if (player != null) return;
         if (this.ir$hasAppliedEffect) this.ir$rollbackEffect();
     }
 }
