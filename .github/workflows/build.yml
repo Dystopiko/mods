@@ -57,7 +57,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: Artifacts
-          path: fabric/build/libs/*.jar
+          path: "**/build/libs/*.jar"
           if-no-files-found: error
           retention-days: 7
 
