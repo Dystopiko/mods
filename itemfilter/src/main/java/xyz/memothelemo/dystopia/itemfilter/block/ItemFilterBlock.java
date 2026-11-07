@@ -89,11 +89,6 @@ public class ItemFilterBlock extends BaseEntityBlock implements PolymerTexturedB
     }
 
     @Override
-    protected @NonNull MapCodec<? extends BaseEntityBlock> codec() {
-        return simpleCodec((properties) -> new ItemFilterBlock(properties, this.modelId));
-    }
-
-    @Override
     public @Nullable BlockEntity newBlockEntity(@NonNull BlockPos pos, @NonNull BlockState state) {
         return new ItemFilterBlockEntity(pos, state);
     }

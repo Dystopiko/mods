@@ -11,7 +11,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "itemfilter:item_filter"
+        "recipes": "itemfilter:item_filter"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
