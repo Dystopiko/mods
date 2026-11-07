@@ -94,5 +94,5 @@ jobs:
               --generate-notes
           fi
 
-          gh release upload "$TAG" dist/*.jar --clobber
+          gh release upload "$TAG" dist/**/*.jar --clobber
           gh release edit "$TAG" --draft=false
